@@ -9,7 +9,7 @@
 //  To create MCUBoot firmware image zephyr-img.bin from the patched file zephyr2.bin:
 //    mcuboot/scripts/imgtool.py create --pad-header --align 4 --version 1.0.0 --header-size 32 --slot-size 475136 zephyr2.bin zephyr-img.bin
 //    mcuboot/scripts/imgtool.py verify zephyr-img.bin
-//  We include the option because the file does not contain an empty MCUBoot header.
+//  We include the "--pad-header" option because the file does not contain an empty MCUBoot header.
 //  See https://lupyuen.github.io/pinetime-rust-mynewt/articles/dfu#generate-a-firmware-image-file-for-pinetime
 
 //  To generate the DFU package zephyr-dfu.zip from the MCUBoot firmware image zephyr-img.bin:
