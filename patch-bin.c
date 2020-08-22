@@ -1,9 +1,20 @@
 //  Patch the vector table in Zephyr .bin firmware file.
 //  Copy offset 0x200..0x2d7
 //  To offset 0x20..0xf7
+
 //  To patch zephyr.bin to zephyr2.bin:
 //    gcc -o patch-bin patch-bin.c
 //    ./patch-bin zephyr.bin zephyr2.bin
+
+//  To create MCUBoot firmware image zephyr-img.bin from the patched file zephyr2.bin:
+//    mcuboot/scripts/imgtool.py create --align 4 --version 1.0.0 --header-size 32 --slot-size 475136 zephyr2.bin zephyr-img.bin
+//    mcuboot/scripts/imgtool.py verify zephyr-img.bin
+//  We exclude the "--pad-header" option because the file already contains an empty MCUBoot header.
+//  See https://lupyuen.github.io/pinetime-rust-mynewt/articles/dfu#generate-a-firmware-image-file-for-pinetime
+
+//  To generate the DFU package zephyr-dfu.zip from the MCUBoot firmware image zephyr-img.bin:
+//    adafruit-nrfutil dfu genpkg --dev-type 0x0052 --application zephyr-img.bin zephyr-dfu.zip
+//  See https://lupyuen.github.io/pinetime-rust-mynewt/articles/cloud#create-dfu-package
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
