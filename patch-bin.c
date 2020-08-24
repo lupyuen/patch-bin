@@ -1,6 +1,7 @@
 //  Patch the vector table in Zephyr .bin firmware file.
-//  Copy offset 0x200..0x2df
-//  To offset 0x0..0xdf
+//  Copy offset   0x200..0x2df
+//  To offset     0x000..0x0df
+//  And to offset 0x1e0..0x1bf (Be careful: this overlaps at 0x200)
 
 //  To patch zephyr.bin to zephyr-patched.bin:
 //    gcc -o patch-bin patch-bin.c
@@ -47,11 +48,17 @@ int main(int argc, char *argv[]) {
     size_t bytes_read = fread(bytes, 1, sizeof(bytes), f);
     fclose(f);
 
-    //  Patch in memory
+    //  Patch in memory: Copy vector table from 0x200 to 0x0
     memcpy(
         &bytes[0x0],       //  Copy to offset 0x0...
         &bytes[0x200],     //  From offset 0x200...
-        VECTOR_TABLE_SIZE  //  For 0xd8 bytes
+        VECTOR_TABLE_SIZE  //  For 0xe0 bytes
+    );
+    //  Copy vector table from 0x0 to 0x1e0 (be careful: this overlaps at 0x200)
+    memcpy(
+        &bytes[0x1e0],     //  Copy to offset 0x1e0...
+        &bytes[0x0],       //  From offset 0x0...
+        VECTOR_TABLE_SIZE  //  For 0xe0 bytes
     );
     
     //  Write the dest file
