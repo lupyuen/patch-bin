@@ -1,6 +1,6 @@
 //  Patch the vector table in Zephyr .bin firmware file.
-//  Copy offset 0x200..0x2d7
-//  To offset 0x0..0xd7
+//  Copy offset 0x200..0x2df
+//  To offset 0x0..0xdf
 
 //  To patch zephyr.bin to zephyr-patched.bin:
 //    gcc -o patch-bin patch-bin.c
@@ -27,7 +27,7 @@
 #include <assert.h>
 
 #define MAX_SIZE          512 * 1024  //  Max 512 KB
-#define VECTOR_TABLE_SIZE 0xd8        //  Size of vector table
+#define VECTOR_TABLE_SIZE 0xe0        //  Size of vector table
 
 static uint8_t bytes[MAX_SIZE];
 
